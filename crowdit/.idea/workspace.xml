@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="293b571e-721b-4b21-861b-74cc3b2be5aa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api.py" afterPath="$PROJECT_DIR$/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models.py" afterPath="$PROJECT_DIR$/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urls.py" afterPath="$PROJECT_DIR$/urls.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,12 +25,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="62" selection-start="2817" selection-end="2817" vertical-scroll-proportion="0.7068404">
+            <state line="101" column="0" selection-start="4030" selection-end="4030" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="39" selection-start="680" selection-end="680" vertical-scroll-proportion="0.46254072">
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -52,6 +63,7 @@
         <option value="$PROJECT_DIR$/settings.py" />
         <option value="$PROJECT_DIR$/models.py" />
         <option value="$PROJECT_DIR$/api.py" />
+        <option value="$PROJECT_DIR$/urls.py" />
       </list>
     </option>
   </component>
@@ -362,9 +374,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="62" selection-start="2817" selection-end="2817" vertical-scroll-proportion="0.7068404">
+        <state line="101" column="0" selection-start="4030" selection-end="4030" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#23#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="39" selection-start="680" selection-end="680" vertical-scroll-proportion="0.46254072">
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>

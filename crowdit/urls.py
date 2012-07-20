@@ -1,5 +1,12 @@
 from django.conf.urls import patterns, include, url
+from api import UserResource
+from tastypie.api import Api
 
+from django.contrib import admin
+admin.autodiscover()
+
+crowdit_api = Api(api_name='crowdit')
+crowdit_api.register(UserResource)
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -10,8 +17,10 @@ urlpatterns = patterns('',
     # url(r'^crowdit/', include('crowdit.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    (r'^api/', include(crowdit_api.urls)),
 
     # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+     url(r'^admin/', include(admin.site.urls)),
 )
