@@ -23,3 +23,7 @@ class Person(models.Model):
 
     def __unicode__(self):
         return self.username
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = Person.objects.get_or_create(user=instance)
