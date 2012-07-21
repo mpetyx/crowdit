@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="293b571e-721b-4b21-861b-74cc3b2be5aa" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api.py" afterPath="$PROJECT_DIR$/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models.py" afterPath="$PROJECT_DIR$/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.py" afterPath="$PROJECT_DIR$/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urls.py" afterPath="$PROJECT_DIR$/urls.py" />
     </list>
     <ignored path="crowdit.iws" />
@@ -27,10 +25,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="22" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
+            <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="2.3555956">
               <folding />
             </state>
           </provider>
@@ -39,7 +37,7 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="42" selection-start="369" selection-end="369" vertical-scroll-proportion="0.0">
+            <state line="6" column="20" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#53#92#0" expanded="true" />
               </folding>
@@ -47,12 +45,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="1.7486137">
+            <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="0" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#77#105#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -72,9 +81,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/models.py" />
-        <option value="$PROJECT_DIR$/settings.py" />
-        <option value="$PROJECT_DIR$/urls.py" />
         <option value="$PROJECT_DIR$/api.py" />
+        <option value="$PROJECT_DIR$/urls.py" />
+        <option value="$PROJECT_DIR$/settings.py" />
       </list>
     </option>
   </component>
@@ -365,13 +374,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="22" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CamelCaseJSONSerializer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="29" selection-start="198" selection-end="221" vertical-scroll-proportion="0.29783395">
@@ -379,28 +381,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="24" selection-start="77" selection-end="106" vertical-scroll-proportion="0.16245487">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="42" selection-start="369" selection-end="369" vertical-scroll-proportion="0.0">
+        <state line="6" column="20" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#53#92#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#77#105#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="1.7486137">
+        <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#23#74#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="2.3555956">
+          <folding />
         </state>
       </provider>
     </entry>
