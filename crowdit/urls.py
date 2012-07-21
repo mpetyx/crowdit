@@ -1,12 +1,16 @@
-from django.conf.urls import patterns, include, url
-from api import UserResource
+#from django.conf.urls import patterns, include, url
+from django.conf.urls.defaults import *
+from crowdit.api import PersonResource, UserSignUpResource,UserResource
 from tastypie.api import Api
 
 from django.contrib import admin
 admin.autodiscover()
 
 crowdit_api = Api(api_name='crowdit')
-crowdit_api.register(UserResource)
+crowdit_api.register(PersonResource())
+crowdit_api.register(UserSignUpResource())
+crowdit_api.register(UserResource())
+
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
@@ -20,7 +24,7 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     (r'^api/', include(crowdit_api.urls)),
-    url(r'social', include('social_auth.urls')),
+    url(r'', include('social_auth.urls')),
 
     # Uncomment the next line to enable the admin:
      url(r'^admin/', include(admin.site.urls)),
