@@ -3,8 +3,8 @@ __author__ = 'mpetyx'
 from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import authenticate, login
 from tastypie.resources import ModelResource
-from tastypie.authorization import Authorization, DjangoAuthorization
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, MultiAuthentication
+from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
+from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication
 from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
@@ -46,8 +46,8 @@ class MyAuthentication(BasicAuthentication):
 class UserSignUpResource(ModelResource):
 
     class Meta:
-        object_class = Person
-        queryset = Person.objects.all()
+        object_class = User
+        queryset = User.objects.all()
         allowed_methods = ['post']
         include_resource_uri = False
         resource_name = 'newuser'
@@ -55,7 +55,7 @@ class UserSignUpResource(ModelResource):
         serializer = CamelCaseJSONSerializer(formats=['json'])
         authentication = ApiKeyAuthentication()
         authorization = DjangoAuthorization()
-        models.signals.post_save.connect(create_api_key, sender=Person)
+        models.signals.post_save.connect(create_api_key, sender=User)
 
     def obj_create(self, bundle, request=None, **kwargs):
         try:
@@ -119,5 +119,5 @@ class PersonResource(ModelResource):
         excludes = ['id']
         include_resource_uri = False
 
-        authentication = MultiAuthentication(BasicAuthentication, MyAuthentication())
+        authentication = BasicAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
         authorization = DjangoAuthorization()
