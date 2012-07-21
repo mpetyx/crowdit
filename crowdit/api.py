@@ -12,7 +12,7 @@ from django.db import models
 from tastypie.models import create_api_key
 
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
-from models import Person
+from models import Person, User
 
 """
     the closed api we are going to expose for the mobile devices
