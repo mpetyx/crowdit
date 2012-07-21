@@ -40,6 +40,7 @@ class MyAuthentication(BasicAuthentication):
         request.user = user
         return self.get_key(user, api_key)
 
+
 #        http://stackoverflow.com/questions/10778916/create-a-new-user-using-tastypie-results-in-401
 #        curl -v -X POST -d '{"username" : "username", "password" : "123456"}' -H "Authorization: ApiKey superusername:apikey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/v1/newuser/
 class UserSignUpResource(ModelResource):

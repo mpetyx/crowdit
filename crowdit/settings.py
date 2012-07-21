@@ -1,7 +1,7 @@
 # Django settings for crowdit project.
 
 import os
-#import dj_database_url
+# import dj_database_url
 
 
 
@@ -16,7 +16,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-#DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+# DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
 
 DATABASES = {
     'default': {
@@ -134,6 +134,8 @@ INSTALLED_APPS = (
      'tastypie',
      'crowdit',
      'social_auth',
+      'event',
+      'award',
 )
 
 AUTHENTICATION_BACKENDS = (
