@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="293b571e-721b-4b21-861b-74cc3b2be5aa" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/admin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api.py" afterPath="$PROJECT_DIR$/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models.py" afterPath="$PROJECT_DIR$/models.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +28,7 @@
       <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="0.0">
+            <state line="167" column="33" selection-start="5865" selection-end="5865" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -39,10 +37,8 @@
       <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="32" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#23#68#0" expanded="true" />
-              </folding>
+            <state line="6" column="30" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -50,31 +46,18 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="20" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#53#92#0" expanded="true" />
-              </folding>
+            <state line="1" column="0" selection-start="53" selection-end="53" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="98" column="12" selection-start="3716" selection-end="3799" vertical-scroll-proportion="0.0">
+            <state line="120" column="0" selection-start="4784" selection-end="4784" vertical-scroll-proportion="0.8336414">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="0" selection-start="326" selection-end="500" vertical-scroll-proportion="0.4061372">
-              <folding>
-                <element signature="e#77#105#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -96,8 +79,8 @@
         <option value="$PROJECT_DIR$/urls.py" />
         <option value="$PROJECT_DIR$/settings.py" />
         <option value="$PROJECT_DIR$/admin.py" />
-        <option value="$PROJECT_DIR$/api.py" />
         <option value="$PROJECT_DIR$/models.py" />
+        <option value="$PROJECT_DIR$/api.py" />
       </list>
     </option>
   </component>
@@ -152,16 +135,25 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="recentsLimit" value="5" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
-    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="recentsLimit" value="5" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -193,6 +185,25 @@
       <option name="MULTIPROCESS" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <module name="crowdit" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <method />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -212,25 +223,6 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <module name="crowdit" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -311,7 +303,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14829822" sideWeight="0.9724613" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15478119" sideWeight="0.9724613" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -395,31 +387,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="20" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#53#92#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="32" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#23#68#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Python/2.7/site-packages/Django-1.4-py2.7.egg/django/contrib/auth/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="224" column="6" selection-start="7935" selection-end="7935" vertical-scroll-proportion="0.33212996">
@@ -427,20 +394,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api.py">
+    <entry file="file://$PROJECT_DIR$/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="98" column="12" selection-start="3716" selection-end="3799" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#23#74#0" expanded="true" />
-          </folding>
+        <state line="167" column="33" selection-start="5865" selection-end="5865" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="30" selection-start="161" selection-end="161" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="53" selection-end="53" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="326" selection-end="500" vertical-scroll-proportion="0.4061372">
+        <state line="26" column="28" selection-start="696" selection-end="696" vertical-scroll-proportion="0.62274367">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="0" selection-start="4784" selection-end="4784" vertical-scroll-proportion="0.8336414">
           <folding>
-            <element signature="e#77#105#0" expanded="true" />
+            <element signature="e#23#74#0" expanded="true" />
           </folding>
         </state>
       </provider>
