@@ -17,8 +17,8 @@ class Person(User):
 #    firstName = models.CharField(max_length=255)
 #    lastName  = models.CharField(max_length=255)
 #    mail      = models.EmailField()
-    username  = models.CharField(max_length=255)
-    added_on = models.DateTimeField(auto_now_add=True)
+    # username  = models.CharField(max_length=255)
+    # added_on = models.DateTimeField(auto_now_add=True)
 
     class Admin:
         pass
