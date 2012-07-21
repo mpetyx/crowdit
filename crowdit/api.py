@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import authenticate, login
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication
+from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, MultiAuthentication
 from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
@@ -108,16 +108,16 @@ class UserResource(ModelResource):
                 return self.create_response(request, {'success': False})
 
 
-#class PersonResource(ModelResource):
-#    class Meta:
-#        queryset = Person.objects.all()
-#
-#        #        fields = ['username', 'first_name', 'last_name', 'last_login']
-#        #        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
-#        #        allowed_methods = ['get']
-#
-#        excludes = ['id']
-#        include_resource_uri = False
-#
-#        authentication = MyAuthentication()
-#        authorization = DjangoAuthorization()
+class PersonResource(ModelResource):
+    class Meta:
+        queryset = Person.objects.all()
+
+        #        fields = ['username', 'first_name', 'last_name', 'last_login']
+        #        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
+        #        allowed_methods = ['get']
+
+        excludes = ['id']
+        include_resource_uri = False
+
+        authentication = MultiAuthentication(BasicAuthentication, MyAuthentication())
+        authorization = DjangoAuthorization()

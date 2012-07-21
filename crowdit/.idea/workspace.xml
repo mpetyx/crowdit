@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="293b571e-721b-4b21-861b-74cc3b2be5aa" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.py" afterPath="$PROJECT_DIR$/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/urls.py" afterPath="$PROJECT_DIR$/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api.py" afterPath="$PROJECT_DIR$/api.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,10 +24,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="settings.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="2.3555956">
+            <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -45,10 +44,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="0.0">
+            <state line="121" column="66" selection-start="4616" selection-end="4616" vertical-scroll-proportion="3.3548985">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
               </folding>
@@ -81,9 +80,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/models.py" />
-        <option value="$PROJECT_DIR$/api.py" />
         <option value="$PROJECT_DIR$/urls.py" />
         <option value="$PROJECT_DIR$/settings.py" />
+        <option value="$PROJECT_DIR$/api.py" />
       </list>
     </option>
   </component>
@@ -399,19 +398,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api.py">
+    <entry file="file://$PROJECT_DIR$/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="0" selection-start="4154" selection-end="4154" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#23#74#0" expanded="true" />
-          </folding>
+        <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.py">
+    <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="33" selection-start="5833" selection-end="5833" vertical-scroll-proportion="2.3555956">
-          <folding />
+        <state line="121" column="66" selection-start="4616" selection-end="4616" vertical-scroll-proportion="3.3548985">
+          <folding>
+            <element signature="e#23#74#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
