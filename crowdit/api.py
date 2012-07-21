@@ -27,8 +27,7 @@ class MyAuthentication(BasicAuthentication):
         from django.contrib.auth.models import User
 
         username = request.GET.get('username') or request.POST.get('username')
-        #        api_key = request.GET.get('api_key') or request.POST.get('api_key')
-        api_key = request.GET.get('password') or request.POST.get('password')
+        api_key = request.GET.get('api_key') or request.POST.get('api_key')
 
         if not username or not api_key:
             return self._unauthorized()
@@ -44,6 +43,11 @@ class MyAuthentication(BasicAuthentication):
 #        http://stackoverflow.com/questions/10778916/create-a-new-user-using-tastypie-results-in-401
 #        curl -v -X POST -d '{"username" : "username", "password" : "123456"}' -H "Authorization: ApiKey superusername:apikey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/v1/newuser/
 class UserSignUpResource(ModelResource):
+
+    """
+    example on how it works
+    curl -v -X POST -d '{"username" : "foo", "password" : "bar"}' -H "Authorization:ApiKey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/crowdit/newuser/\?username\=dev\&api_key\=5d56fb13fd56ed00f96b080663dee25d80811143
+    """
 
     class Meta:
         object_class = User
@@ -73,7 +77,7 @@ class UserResource(ModelResource):
 
         class Meta:
 
-            queryset = Person.objects.all()
+            queryset = User.objects.all()
             list_allowed_methods = ['get', 'post']
 
             excludes = ['id']

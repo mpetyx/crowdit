@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="293b571e-721b-4b21-861b-74cc3b2be5aa" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crowdit.db" afterPath="$PROJECT_DIR$/../crowdit.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/admin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/api.py" afterPath="$PROJECT_DIR$/api.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models.py" afterPath="$PROJECT_DIR$/models.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -35,6 +36,17 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="32" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#23#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/urls.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -49,7 +61,7 @@
       <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="818" selection-end="818" vertical-scroll-proportion="0.0">
+            <state line="98" column="12" selection-start="3716" selection-end="3799" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
               </folding>
@@ -60,7 +72,7 @@
       <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="609" selection-end="609" vertical-scroll-proportion="0.5685921">
+            <state line="15" column="0" selection-start="326" selection-end="500" vertical-scroll-proportion="0.4061372">
               <folding>
                 <element signature="e#77#105#0" expanded="true" />
               </folding>
@@ -81,10 +93,11 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/models.py" />
         <option value="$PROJECT_DIR$/urls.py" />
         <option value="$PROJECT_DIR$/settings.py" />
+        <option value="$PROJECT_DIR$/admin.py" />
         <option value="$PROJECT_DIR$/api.py" />
+        <option value="$PROJECT_DIR$/models.py" />
       </list>
     </option>
   </component>
@@ -398,9 +411,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="32" selection-start="101" selection-end="101" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#23#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Python/2.7/site-packages/Django-1.4-py2.7.egg/django/contrib/auth/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="6" selection-start="7935" selection-end="7935" vertical-scroll-proportion="0.33212996">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="818" selection-end="818" vertical-scroll-proportion="0.0">
+        <state line="98" column="12" selection-start="3716" selection-end="3799" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="e#23#74#0" expanded="true" />
           </folding>
@@ -409,7 +438,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="609" selection-end="609" vertical-scroll-proportion="0.5685921">
+        <state line="15" column="0" selection-start="326" selection-end="500" vertical-scroll-proportion="0.4061372">
           <folding>
             <element signature="e#77#105#0" expanded="true" />
           </folding>

@@ -11,12 +11,12 @@ from tastypie.models import create_api_key
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
-class Person(models.Model):
+class Person(User):
 
-    user = models.OneToOneField(User)
-    firstName = models.CharField(max_length=255)
-    lastName  = models.CharField(max_length=255)
-    mail      = models.EmailField()
+#    user = models.OneToOneField(User)
+#    firstName = models.CharField(max_length=255)
+#    lastName  = models.CharField(max_length=255)
+#    mail      = models.EmailField()
     username  = models.CharField(max_length=255)
     added_on = models.DateTimeField(auto_now_add=True)
 
