@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91ce16d8-5d67-44ff-87ed-bc0e6a13d103" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit.db" afterPath="$PROJECT_DIR$/crowdit.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/.idea/workspace.xml" afterPath="$PROJECT_DIR$/crowdit/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/api.py" afterPath="$PROJECT_DIR$/crowdit/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/urls.py" afterPath="$PROJECT_DIR$/crowdit/urls.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,7 +36,7 @@
       <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/crowdit/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="62" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.046242774">
+            <state line="88" column="0" selection-start="3542" selection-end="3542" vertical-scroll-proportion="0.47976878">
               <folding>
                 <element signature="e#23#74#0" expanded="true" />
               </folding>
@@ -396,7 +393,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/crowdit/api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="62" selection-start="4098" selection-end="4098" vertical-scroll-proportion="0.046242774">
+        <state line="88" column="0" selection-start="3542" selection-end="3542" vertical-scroll-proportion="0.47976878">
           <folding>
             <element signature="e#23#74#0" expanded="true" />
           </folding>

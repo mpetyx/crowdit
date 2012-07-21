@@ -85,8 +85,8 @@ class UserResource(ModelResource):
             #        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
             #        allowed_methods = ['get']
 
-#            authentication = BasicAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
-#            authorization = DjangoAuthorization()
+            authentication = BasicAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+            authorization = DjangoAuthorization()
 
             excludes = ['id']
             include_resource_uri = False
