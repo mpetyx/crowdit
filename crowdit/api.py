@@ -1,10 +1,10 @@
 __author__ = 'mpetyx'
 
 from django.conf.urls.defaults import patterns, url
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication, MultiAuthentication
+from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#, MultiAuthentication
 from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
@@ -96,7 +96,10 @@ class UserResource(ModelResource):
             return [
                 url(r"^(?P<resource_name>%s)/signin%s$" %
                     (self._meta.resource_name, trailing_slash()),
-                    self.wrap_view('signin'), name="api_signin")
+                    self.wrap_view('signin'), name="api_signin"),
+                url(r"^(?P<resource_name>%s)/logout%s$" %
+                    (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('logout'), name="api_logout"),
             ]
 
 
@@ -118,3 +121,9 @@ class UserResource(ModelResource):
             else:
                 # Return an 'invalid login' error message.
                 return self.create_response(request, {'success': False})
+
+
+        def logout(self, request, **kwargs):
+            self.method_check(request, allowed=['post'])
+
+            logout(request)
