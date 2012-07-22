@@ -4,13 +4,14 @@ from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import authenticate, login, logout
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#, MultiAuthentication
+from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#OAuthAuthentication#, MultiAuthentication
+from authentication import TwoLeggedOAuthAuthentication
 from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
 from django.db import models
 from tastypie.models import create_api_key
-
+from models import OAuthConsumer
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
 from models import Person, User
 
@@ -85,7 +86,7 @@ class UserResource(ModelResource):
             #        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
             #        allowed_methods = ['get']
 
-            authentication = BasicAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+            authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
             authorization = DjangoAuthorization()
 
             excludes = ['id']
@@ -114,7 +115,13 @@ class UserResource(ModelResource):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return self.create_response(request, {'success': True})
+                    consumer = OAuthConsumer()
+                    consumer.key = 'foo'
+                    consumer.name = 'foo'
+                    consumer.secret = 'foo'
+                    consumer.active = True
+                    consumer.save()
+                    return self.create_response(request, {'success': True, 'key': consumer.key})
                 else:
                     # Return a 'disabled account' error message
                     return self.create_response(request, {'success': False})

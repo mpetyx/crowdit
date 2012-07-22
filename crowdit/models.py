@@ -29,3 +29,16 @@ class Person(User):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = Person.objects.get_or_create(user=instance)
+
+class OAuthConsumer(models.Model):
+
+    name = models.CharField(max_length=255)
+    key = models.CharField(max_length=255)
+    secret = models.CharField(max_length=255)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "api_oauth_consumer"
+
+    def __unicode__(self):
+        return u'%s' % (self.name)
