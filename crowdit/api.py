@@ -14,6 +14,7 @@ from tastypie.models import create_api_key
 from models import OAuthConsumer
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
 from models import Person, User
+import time
 
 """
     the closed api we are going to expose for the mobile devices
@@ -50,6 +51,7 @@ class UserSignUpResource(ModelResource):
     example on how it works
     curl -v -X POST -d '{"username" : "foo", "password" : "bar"}' -H "Authorization:ApiKey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/crowdit/newuser/\?username\=dev\&api_key\=5d56fb13fd56ed00f96b080663dee25d80811143
     """
+# curl -v -X POST -d 'username=yalll&password=yall' -H "Authorization:ApiKey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/crowdit/newuser/\?username\=dev\&api_key\=5d56fb13fd56ed00f96b080663dee25d80811143
 
     class Meta:
         object_class = User
@@ -115,19 +117,17 @@ class UserResource(ModelResource):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    consumer = OAuthConsumer()
-                    consumer.key = 'foo'
-                    consumer.name = 'foo'
-                    consumer.secret = 'foo'
-                    consumer.active = True
+                    consumer, created = OAuthConsumer.objects.get_or_create(key=user.username, name=user.username,
+                        active=True)
+                    consumer.secret = user.username + str(time.time())
                     consumer.save()
-                    return self.create_response(request, {'success': True, 'key': consumer.key})
+                    return self.create_response(request, {'success': True, 'name': user.username, 'key': consumer.key, 'secret': consumer.secret})
                 else:
                     # Return a 'disabled account' error message
-                    return self.create_response(request, {'success': False})
+                    return self.create_response(request, {'success': False, 'message': 'The user is disabled'})
             else:
                 # Return an 'invalid login' error message.
-                return self.create_response(request, {'success': False})
+                return self.create_response(request, {'success': False, 'message': 'Invalid User. Please make sure you inserted the right username-password'})
 
 
         def logout(self, request, **kwargs):
