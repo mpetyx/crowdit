@@ -27,5 +27,5 @@ urlpatterns = patterns('',
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-            'document_root': '/Users/john/project/crowdit/media/'}),
+            'document_root': os.path.abspath('media')}),
     )
