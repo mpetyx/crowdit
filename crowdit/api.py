@@ -13,7 +13,7 @@ from django.db import models
 from tastypie.models import create_api_key
 from models import OAuthConsumer
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
-from models import Person, User
+from models import *
 import time
 
 """
@@ -54,8 +54,8 @@ class UserSignUpResource(ModelResource):
 # curl -v -X POST -d 'username=yalll&password=yall' -H "Authorization:ApiKey" -H "Content-Type: application/json" http://127.0.0.1:8000/api/crowdit/newuser/\?username\=dev\&api_key\=5d56fb13fd56ed00f96b080663dee25d80811143
 
     class Meta:
-        object_class = User
-        queryset = User.objects.all()
+        object_class = Person
+        queryset = Person.objects.all()
         allowed_methods = ['post']
         include_resource_uri = False
         resource_name = 'newuser'
@@ -134,3 +134,37 @@ class UserResource(ModelResource):
             self.method_check(request, allowed=['post'])
 
             logout(request)
+
+
+class EventResource(ModelResource):
+
+    class Meta:
+
+        object_class = Event
+        queryset = Event.objects.all()
+        allowed_methods = ['get']
+        include_resource_uri = False
+#        excludes = ['is_active', 'is_staff', 'is_superuser']
+        resource_name = 'event'
+
+#        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+#        authorization = DjangoAuthorization()
+
+        excludes = ['id']
+        include_resource_uri = False
+
+class AwardResource(ModelResource):
+
+    class Meta:
+
+        object_class = Award
+        queryset = Award.objects.all()
+        allowed_methods = ['get']
+        include_resource_uri = False
+        resource_name = 'award'
+#        excludes = ['is_active', 'is_staff', 'is_superuser']
+#        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+#        authorization = DjangoAuthorization()
+
+        excludes = ['id']
+        include_resource_uri = False

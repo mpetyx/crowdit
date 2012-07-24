@@ -1,6 +1,7 @@
 # Django settings for crowdit project.
 
 import os
+import django_google_maps
 # import dj_database_url
 
 
@@ -134,8 +135,6 @@ INSTALLED_APPS = (
      'tastypie',
      'crowdit',
      'social_auth',
-      'event',
-      'award',
 )
 
 AUTHENTICATION_BACKENDS = (
