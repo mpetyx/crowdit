@@ -14,7 +14,7 @@ crowdit_api.register(UserSignUpResource())
 crowdit_api.register(UserResource())
 crowdit_api.register(EventResource())
 crowdit_api.register(AwardResource())
-
+crowdit_api.register(FriendshipInvitationResourse())
 
 urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
 from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#OAuthAuthentication#, MultiAuthentication
-from authentication import TwoLeggedOAuthAuthentication
+from authentication import *
 from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
@@ -19,7 +19,6 @@ import time
 """
     the closed api we are going to expose for the mobile devices
 """
-
 
 # a class for handling custom authentication as already described
 class MyAuthentication(BasicAuthentication):
@@ -83,10 +82,6 @@ class UserResource(ModelResource):
 
             queryset = User.objects.all()
             list_allowed_methods = ['get', 'post']
-
-            #        fields = ['username', 'first_name', 'last_name', 'last_login']
-            #        excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
-            #        allowed_methods = ['get']
 
             authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
             authorization = DjangoAuthorization()
@@ -166,5 +161,55 @@ class AwardResource(ModelResource):
 #        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
 #        authorization = DjangoAuthorization()
 
+
+class FriendshipInvitationResourse(ModelResource):
+
+    class Meta:
+
+        queryset = FriendshipInvitation.objects.all()
+        allowed_methods = ['post']
+        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+        authorization = DjangoAuthorization()
         excludes = ['id']
+        resource_name = 'invite'
         include_resource_uri = False
+
+    def override_urls(self):
+
+        return [
+            url(r"^(?P<resource_name>%s)/send%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('send'), name="api_send"),
+            ]
+
+
+    def send(self, request, **kwargs):
+#        self.is_authenticated(request)
+#        the code below will work perfect when the line above will be uncommented
+        consumer_secret = get_oauth_consumer_key_from_header(request.META.get('HTTP_AUTHORIZATION'))
+        try:
+            consumer = OAuthConsumer.objects.get(secret=consumer_secret)
+        except OAuthConsumer.DoesNotExist:
+            consumer = None
+        if not consumer:
+            return self._unauthorized()
+        else:
+            user = User.objects.get(username=consumer.key)
+        if not user:
+            return self._unauthorized()
+        else:
+            request.user = user
+        self.is_authorized(request)
+        to_user_id = request.POST.get('username_to', '');
+        to_user_username = User.objects.get(id=to_user_id).username
+        from_user_id = user.id
+        if Friendship.objects.are_friends(to_user_id, from_user_id):
+            return self.create_response(request, {'success': False, 'message': 'It seems that you are already friends with ' + to_user_username})
+        else:
+            invitations = FriendshipInvitation.objects.invitations(from_user=from_user_id,to_user=to_user_id)
+            if (not invitations):
+                return self.create_response(request, {'success': True, 'message': 'Hey ' +  user.username + '!' +
+                      'You successfully sent invitation to ' + to_user_username})
+            else:
+                return self.create_response(request, {'success': False, 'message': 'It seems that there is already a pending invitation for ' + to_user_username})
+
