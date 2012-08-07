@@ -194,20 +194,25 @@ class FriendshipInvitationResourse(ModelResource):
         if not consumer:
             return self._unauthorized()
         else:
-            user = User.objects.get(username=consumer.key)
+            user = Person.objects.get(username=consumer.key)
         if not user:
             return self._unauthorized()
         else:
             request.user = user
         self.is_authorized(request)
         to_user_id = request.POST.get('username_to', '');
-        to_user_username = User.objects.get(id=to_user_id).username
+        to_user = Person.objects.get(id=to_user_id)
+        to_user_username = to_user.username
         from_user_id = user.id
+        from_user = user
         if Friendship.objects.are_friends(to_user_id, from_user_id):
             return self.create_response(request, {'success': False, 'message': 'It seems that you are already friends with ' + to_user_username})
         else:
             invitations = FriendshipInvitation.objects.invitations(from_user=from_user_id,to_user=to_user_id)
             if (not invitations):
+                invitation = FriendshipInvitation.objects.get_or_create(from_user=from_user, to_user=to_user,
+                    message='Hello! Do you wanna join me on crowdit??', status=1)
+#                invitation.save()
                 return self.create_response(request, {'success': True, 'message': 'Hey ' +  user.username + '!' +
                       'You successfully sent invitation to ' + to_user_username})
             else:
