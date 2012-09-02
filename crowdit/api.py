@@ -1,5 +1,3 @@
-__author__ = 'mpetyx'
-
 from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import authenticate, login, logout
 from tastypie.resources import ModelResource
@@ -10,11 +8,15 @@ from tastypie.cache import SimpleCache
 from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
 from django.db import models
+from django.conf import settings
 from tastypie.models import create_api_key
 from models import OAuthConsumer
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
 from models import *
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 import time
+import os
 
 """
     the closed api we are going to expose for the mobile devices
@@ -95,6 +97,9 @@ class UserResource(ModelResource):
                 url(r"^(?P<resource_name>%s)/signin%s$" %
                     (self._meta.resource_name, trailing_slash()),
                     self.wrap_view('signin'), name="api_signin"),
+                url(r"^(?P<resource_name>%s)/prof_picture_upload%s$" %
+                    (self._meta.resource_name, trailing_slash()),
+                    self.wrap_view('prof_picture_upload'), name="api_prof_picture_upload"),
                 url(r"^(?P<resource_name>%s)/logout%s$" %
                     (self._meta.resource_name, trailing_slash()),
                     self.wrap_view('logout'), name="api_logout"),
@@ -123,6 +128,27 @@ class UserResource(ModelResource):
             else:
                 # Return an 'invalid login' error message.
                 return self.create_response(request, {'success': False, 'message': 'Invalid User. Please make sure you inserted the right username-password'})
+
+
+        def prof_picture_upload(self, request, **kwargs):
+            consumer_key = get_oauth_consumer_key_from_header(request.META.get('HTTP_AUTHORIZATION'))
+            try:
+                consumer = OAuthConsumer.objects.get(key=consumer_key)
+            except OAuthConsumer.DoesNotExist:
+                consumer = None
+            if not consumer:
+                return self._unauthorized()
+            else:
+                user = Person.objects.get(username=consumer.key)
+            if not user:
+                return self._unauthorized()
+            else:
+                request.user = user
+            self.is_authorized(request)
+            uploaded_file = request.FILES['file']
+            user.photo.save(str(user.id) + '.jpg', ContentFile(uploaded_file.read()))
+            user.save
+            return self.create_response(request, {'success': True, 'message': 'WOW!!'})
 
 
         def logout(self, request, **kwargs):
@@ -180,6 +206,9 @@ class FriendshipInvitationResourse(ModelResource):
             url(r"^(?P<resource_name>%s)/send%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('send'), name="api_send"),
+            url(r"^(?P<resource_name>%s)/validate%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('validate'), name="api_validate"),
             ]
 
 
@@ -217,4 +246,8 @@ class FriendshipInvitationResourse(ModelResource):
                       'You successfully sent invitation to ' + to_user_username})
             else:
                 return self.create_response(request, {'success': False, 'message': 'It seems that there is already a pending invitation for ' + to_user_username})
+
+    def validate(self, request, **kwargs):
+        invitation_id = request.GET.get('invitationID', '');
+        return self.create_response(request, {'success': True, 'message': 'Successfully Validated User From Invitation To User To' + invitation_id})
 

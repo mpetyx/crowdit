@@ -50,7 +50,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = 'https://s3.amazonaws.com/crowdit-media/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -60,8 +60,13 @@ STATIC_ROOT = ''
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
-
+STATIC_URL = 'https://s3.amazonaws.com/crowdit-media/'
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAIB6Q2NFEOHYHIE4Q'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'crowdit-media'
+ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -115,11 +120,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'django.contrib.admin',
-     'django.contrib.admindocs',
-     'tastypie',
-     'crowdit',
-     'social_auth',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
+    'tastypie',
+    'crowdit',
+    'social_auth',
+    'storages',
 )
 
 AUTHENTICATION_BACKENDS = (
