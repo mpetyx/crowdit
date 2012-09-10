@@ -108,7 +108,7 @@ class Person(User):
         pass
 
     def getImage(self):
-        return "<img src='%s' width=97 height=72/>" % self.photo.url
+        return "<img src='%s' width=97 height=72/>" % self.photo.url if self.photo else ''
 
     getImage.allow_tags = True
 
@@ -353,6 +353,7 @@ class FriendshipInvitation(models.Model):
     associated as friends.
     """
 
+    date_read = models.DateTimeField(blank=True, null=True)
     from_user = models.ForeignKey(Person, related_name="invitations_from")
     to_user = models.ForeignKey(Person, related_name="invitations_to")
     message = models.TextField()
