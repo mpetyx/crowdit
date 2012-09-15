@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import Group
 from tastypie.resources import ModelResource
 from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
 from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#OAuthAuthentication#, MultiAuthentication
@@ -73,6 +74,8 @@ class UserSignUpResource(ModelResource):
         try:
             bundle = super(UserSignUpResource, self).obj_create(bundle, request, **kwargs)
             bundle.obj.set_password(bundle.data.get('password'))
+            g = Group.objects.get(name='Crowdit user')
+            g.user_set.add(bundle.obj)
             bundle.obj.save()
         except IntegrityError:
             raise BadRequest('The username already exists')
@@ -116,7 +119,7 @@ class UserResource(ModelResource):
 
     def search(self, request, **kwargs):
         self.is_authenticated(request)
-        checkRequestAndGetRequester(self, request)
+        checkRequestAndGetRequester(self, request, True)
         username = request.GET['username'];
         if username:
             try:
@@ -134,7 +137,7 @@ class UserResource(ModelResource):
 
     def friends(self, request, **kwargs):
         self.is_authenticated(request)
-        person = checkRequestAndGetRequester(self, request)
+        person = checkRequestAndGetRequester(self, request, True)
         friends = friend_set_for(person)
         if friends:
             jsonFriends = simplejson.dumps([{'username': friend.username, 'id': friend.id, 'photo': friend.photo.url if friend.photo else ''} for friend in friends])
@@ -170,7 +173,7 @@ class UserResource(ModelResource):
 
     def prof_picture_upload(self, request, **kwargs):
         self.is_authenticated(request)
-        person = checkRequestAndGetRequester(self, request)
+        person = checkRequestAndGetRequester(self, request, False)
         uploaded_file = request.FILES['file']
         person.photo.save(str(person.id) + '.jpg', ContentFile(uploaded_file.read()))
         person.save
@@ -248,7 +251,7 @@ class FriendshipInvitationResource(ModelResource):
 
     def read(self, request, **kwargs):
         self.is_authenticated(request)
-        person = checkRequestAndGetRequester(self, request)
+        person = checkRequestAndGetRequester(self, request, True)
 #        person = Person.objects.get(username='Foo')
 #        request.user = person
         invitation_ids = request.POST.get('invitationIDs', '')
@@ -279,7 +282,7 @@ class FriendshipInvitationResource(ModelResource):
 
     def send(self, request, **kwargs):
         self.is_authenticated(request)
-        user = checkRequestAndGetRequester(self, request)
+        user = checkRequestAndGetRequester(self, request, True)
         #        the code below will work perfect when the line above will be uncommented and the two lines below will be commented
 #        user = Person.objects.get(username='Johnecon')
 #        request.user = user
@@ -305,7 +308,7 @@ class FriendshipInvitationResource(ModelResource):
 
     def accept(self, request, **kwargs):
         self.is_authenticated(request)
-        user = checkRequestAndGetRequester(self, request)
+        user = checkRequestAndGetRequester(self, request, True)
         invitation_id = request.POST.get('invitationID', '')
         if (invitation_id):
             try:
@@ -322,7 +325,7 @@ class FriendshipInvitationResource(ModelResource):
 
     def decline(self, request, **kwargs):
         self.is_authenticated(request)
-        person = checkRequestAndGetRequester(self, request)
+        person = checkRequestAndGetRequester(self, request, True)
         invitation_id = request.POST.get('invitationID', '')
         if (invitation_id):
             try:
@@ -342,7 +345,7 @@ class FriendshipInvitationResource(ModelResource):
         self.is_authenticated(request)
 #        person = Person.objects.get(username='Foo')
 #        request.user = person
-        person = checkRequestAndGetRequester(self, request)
+        person = checkRequestAndGetRequester(self, request, True)
         try:
             invitations = FriendshipInvitation.objects.filter(to_user=person, status=1)
         except FriendshipInvitation.DoesNotExist:
@@ -355,7 +358,7 @@ class FriendshipInvitationResource(ModelResource):
         else:
             return self.create_response(request, {'success': False})
 
-def checkRequestAndGetRequester(caller, request):
+def checkRequestAndGetRequester(caller, request, shouldUseGenericAuthorization):
     consumer_key = get_oauth_consumer_key_from_header(request.META.get('HTTP_AUTHORIZATION'))
     try:
         consumer = OAuthConsumer.objects.get(key=consumer_key)
@@ -369,5 +372,11 @@ def checkRequestAndGetRequester(caller, request):
         raise ImmediateHttpResponse(response=http.HttpUnauthorized())
     else:
         request.user = person
-    caller.is_authorized(request)
-    return person
+    if shouldUseGenericAuthorization:
+        caller.is_authorized(request)
+        return person
+    else:
+        if request.user.groups.filter(id=crowdit_group.id).exists():
+            return person
+        else:
+            raise ImmediateHttpResponse(response=http.HttpUnauthorized())
