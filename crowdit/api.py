@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, url
+from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from tastypie.resources import ModelResource
@@ -114,6 +115,9 @@ class UserResource(ModelResource):
             url(r"^(?P<resource_name>%s)/logout%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('logout'), name="api_logout"),
+            url(r"^(?P<resource_name>%s)/profile%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('profile'), name="api_profile"),
         ]
 
 
@@ -124,27 +128,125 @@ class UserResource(ModelResource):
         if username:
             try:
                 person = Person.objects.get(username=username)
-            except OAuthConsumer.DoesNotExist:
+            except:
                 person = None
             if person:
                 url = person.photo.url if person.photo else ''
-                return self.create_response(request, {'success': True, 'userID': person.id, 'user': person.username, 'photo': url})
+                return self.create_response(request, {
+                    'success': True,
+                    'userID': person.id,
+                    'user': person.username,
+                    'photo': url
+                })
             else:
-                return self.create_response(request, {'success': False, 'message': 'User not found'})
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'User not found'
+                })
         else:
-            return self.create_response(request, {'success': False, 'message': 'Please provide a username'})
+            return self.create_response(request, {
+                'success': False,
+                'message': 'Please provide a username'
+            })
 
 
     def friends(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, True)
-        friends = friend_set_for(person)
+        user_id = request.GET['userID'];
+        profile = Person.objects.get(id=user_id)
+        friends = friend_set_for(profile)
         if friends:
-            jsonFriends = simplejson.dumps([{'username': friend.username, 'id': friend.id, 'photo': friend.photo.url if friend.photo else ''} for friend in friends])
-            return self.create_response(request, {'success': True, 'friends': jsonFriends})
+            jsonFriends = simplejson.dumps([{
+                'username': friend.username,
+                'id': friend.id,
+                'photo': friend.photo.url if friend.photo else ''
+            } for friend in friends])
+            return self.create_response(request, {
+                'success': True,
+                'friends': jsonFriends
+            })
         else:
-            return self.create_response(request, {'success': False, 'message': 'No friends found'})
+            return self.create_response(request, {
+                'success': False,
+                'message': 'No friends found'
+            })
 
+    def profile(self, request, **kwargs):
+        self.is_authenticated(request)
+        person = checkRequestAndGetRequester(self, request, True)
+#        person = Person.objects.get(username='Bar')
+#        request.user = person
+        user_id = request.GET['userID'];
+        profile = Person.objects.get(id=user_id)
+        number_of_friends = Friendship.objects.filter(Q(from_user_id=profile.id) | Q(to_user_id=profile.id)).count()
+        is_friend = Friendship.objects.are_friends(person.id, profile.id)
+        if person.id == profile.id:
+            return self.create_response(request, {
+                'success': True,
+                'pendingInvitations': {
+                    'pendingInvitationExists': False,
+                    'canAccept': False,
+                    'invitationID' : False,
+                    'invitationMessage': False
+                },
+                'profile': {
+                    'username': profile.username,
+                    'userID': profile.id,
+                    'allowEditing': True,
+                    'photo': profile.photo.url if profile.photo else '',
+                    'numberOfFriends': number_of_friends
+                }
+            })
+        if is_friend:
+            return self.create_response(request, {
+                'success': True,
+                'pendingInvitations': {
+                    'pendingInvitationExists': False,
+                    'canAccept': False,
+                    'invitationID' : False,
+                    'invitationMessage': False
+                },
+                'profile': {
+                    'username': profile.username,
+                    'userID': profile.id,
+                    'allowEditing': False,
+                    'isFriend': is_friend,
+                    'photo': profile.photo.url if profile.photo else '',
+                    'numberOfFriends': number_of_friends
+                }
+            })
+        else:
+            try:
+                invitation_id = False
+                can_accept = False
+                pending_invitation_exists = True
+                invitation_message = False
+                invitation = FriendshipInvitation.objects.get(Q(from_user=person, to_user=profile, status="1") | Q(from_user=profile, to_user=person, status="1"))
+            except:
+                pending_invitation_exists = False
+            if pending_invitation_exists:
+                invitation_id = invitation.id
+                if invitation.to_user == person:
+                    can_accept = True
+                    invitation_message = invitation.message
+            return self.create_response(request, {
+                'success': True,
+                'pendingInvitations': {
+                    'pendingInvitationExists': pending_invitation_exists,
+                    'canAccept': can_accept,
+                    'invitationID' : invitation_id,
+                    'invitationMessage': invitation_message
+                },
+                'profile': {
+                    'username': profile.username,
+                    'userID': profile.id,
+                    'isFriend': is_friend,
+                    'allowEditing': False,
+                    'photo': profile.photo.url if profile.photo else '',
+                    'numberOfFriends': number_of_friends
+                }
+            })
 
     def signin(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
@@ -162,13 +264,25 @@ class UserResource(ModelResource):
                 consumer.secret = user.username + str(time.time())
                 consumer.save()
                 person = Person.objects.get(username=user.username)
-                return self.create_response(request, {'success': True, 'profilePictureUrl': person.photo.url if person.photo else '', 'name': user.username, 'key': consumer.key, 'secret': consumer.secret})
+                return self.create_response(request, {
+                    'success': True,
+                    'userID': person.id,
+                    'name': user.username,
+                    'key': consumer.key,
+                    'secret': consumer.secret
+                })
             else:
                 # Return a 'disabled account' error message
-                return self.create_response(request, {'success': False, 'message': 'The user is disabled'})
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'The user is disabled'
+                })
         else:
             # Return an 'invalid login' error message.
-            return self.create_response(request, {'success': False, 'message': 'Invalid User. Please make sure you inserted the right username-password'})
+            return self.create_response(request, {
+                'success': False,
+                'message': 'Invalid User. Please make sure you inserted the right username-password'
+            })
 
 
     def prof_picture_upload(self, request, **kwargs):
@@ -177,7 +291,10 @@ class UserResource(ModelResource):
         uploaded_file = request.FILES['file']
         person.photo.save(str(person.id) + '.jpg', ContentFile(uploaded_file.read()))
         person.save
-        return self.create_response(request, {'success': True, 'profilePictureUrl': person.photo.url})
+        return self.create_response(request, {
+            'success': True,
+            'profilePictureUrl': person.photo.url
+        })
 
 
     def logout(self, request, **kwargs):
@@ -193,14 +310,175 @@ class EventResource(ModelResource):
         queryset = Event.objects.all()
         allowed_methods = ['get']
         include_resource_uri = False
-        #        excludes = ['is_active', 'is_staff', 'is_superuser']
         resource_name = 'event'
-
-#        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
-#        authorization = DjangoAuthorization()
-
-        excludes = ['id']
         include_resource_uri = False
+
+    def override_urls(self):
+
+        return [
+            url(r"^(?P<resource_name>%s)/upcoming%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('upcoming'), name="api_upcoming"),
+            ]
+
+    def upcoming(self, request, **kwargs):
+        self.is_authenticated(request)
+        person = checkRequestAndGetRequester(self, request, True)
+        events = Event.objects.filter(Q(**{'expiryDate__gte': datetime.datetime.now()}),Q(**{'activationDate__lte': datetime.datetime.now()}))
+#        :
+        awards = {}
+        for event in events:
+            awards[event.id]=Award.objects.filter(event_id=event.id)
+        if events:
+            jsonEvents = simplejson.dumps([{
+                'id': event.id,
+                'category': event.category,
+                'title': event.title,
+                'userCreated': {
+                    'id': event.userCreated.id,
+                    'username': event.userCreated.username,
+                    'photo': event.userCreated.photo.url if event.userCreated.photo else '',
+                },
+                'attending': EventPerson.objects.isPersonAttendingEvent(person, event),
+                'photo': event.image.url if event.image else '',
+                'activationDate': convertDatetimeToString(event.activationDate),
+                'expiryDate': convertDatetimeToString(event.expiryDate),
+                'openingDate': convertDatetimeToString(event.openingDate),
+                'geolocation': {
+                    'lat': event.geolocation.lat,
+                    'lon': event.geolocation.lon
+                },
+                'address': event.address,
+                'description': event.description,
+                'awards': simplejson.dumps([{
+                    'title': award.title,
+                    'description': award.description,
+                    'points': award.points,
+                    'numberLeft':award.numberLeft,
+                    'photo': award.image.url if award.image else ''
+                }
+                for award in awards[event.id]])
+            } for event in events])
+            return self.create_response(request, {
+                'success': True,
+                'events': jsonEvents
+            })
+        else:
+            return self.create_response(request, {
+                'success': False,
+                'message': 'No events found'
+            })
+
+class EventPersonResource(ModelResource):
+
+    class Meta:
+
+        object_class = EventPerson
+        queryset = EventPerson.objects.all()
+        list_allowed_methods = ['get', 'post']
+        include_resource_uri = False
+        resource_name = 'event-person'
+        include_resource_uri = False
+
+    def override_urls(self):
+
+        return [
+            url(r"^(?P<resource_name>%s)/attend%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('attend'), name="api_attend"),
+            url(r"^(?P<resource_name>%s)/unattend%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('unattend'), name="api_unattend"),
+            ]
+
+    def attend(self, request, **kwargs):
+        self.is_authenticated(request)
+        person = checkRequestAndGetRequester(self, request, False)
+        eventID = request.POST['eventID']
+        try:
+            invitedFromID = request.POST['invitedFromID', '']
+        except:
+            invitedFromID = False
+        try:
+            event = Event.objects.get(id=eventID)
+        except:
+            return self.create_response(request, {
+                'success': False,
+                'message': 'Invalid event submitted'
+            })
+        if invitedFromID:
+            try:
+                invitedFrom = Person.objects.get(id=invitedFromID)
+            except:
+                invitedFrom = False
+            if invitedFrom:
+                eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}),Q(**{'invitedFrom': invitedFrom}))
+            else:
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'Invalid "invited from" crowd it user'
+                })
+        else:
+            eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}))
+        if eventPersons:
+            if invitedFromID:
+                eventPersons.invitedFrom=invitedFrom
+                eventPersons.save()
+            else:
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'You already submitted this request'
+                })
+        else:
+            if invitedFromID:
+                EventPerson.objects.create(person=person, invitedFrom=invitedFrom, event=event)
+            else:
+                EventPerson.objects.create(person=person, event=event)
+        return self.create_response(request, {
+            'success': True,
+            'message': 'Your request was submitted successfully'
+        })
+
+    def unattend(self, request, **kwargs):
+        self.is_authenticated(request)
+        person = checkRequestAndGetRequester(self, request, False)
+        eventID = request.POST['eventID']
+        try:
+            invitedFromID = request.POST['invitedFromID', '']
+        except:
+            invitedFromID = False
+        try:
+            event = Event.objects.get(id=eventID)
+        except:
+            return self.create_response(request, {
+                'success': False,
+                'message': 'Invalid event submitted'
+            })
+        if invitedFromID:
+            try:
+                invitedFrom = Person.objects.get(id=invitedFromID)
+            except:
+                invitedFrom = False
+            if invitedFrom:
+                eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}),Q(**{'invitedFrom': invitedFrom}))
+            else:
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'Invalid "invited from" crowd it user'
+                })
+        else:
+            eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}))
+        if eventPersons:
+            eventPersons[0].delete()
+            return self.create_response(request, {
+                'success': True,
+                'message': 'Successfully unattended the event'
+            })
+        else:
+            return self.create_response(request, {
+                'success': False,
+                'message': 'It seems you have already unattended this event'
+            })
 
 class AwardResource(ModelResource):
 
@@ -240,6 +518,9 @@ class FriendshipInvitationResource(ModelResource):
             url(r"^(?P<resource_name>%s)/decline%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('decline'), name="api_decline"),
+            url(r"^(?P<resource_name>%s)/cancel%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('cancel'), name="api_cancel"),
             url(r"^(?P<resource_name>%s)/pending%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('pending'), name="api_pending"),
@@ -267,17 +548,30 @@ class FriendshipInvitationResource(ModelResource):
                     invitation.date_read = datetime.datetime.now()
                     invitation.save()
                 else:
-                    return self.create_response(request, {'success': False, 'message': 'Come on stop trying to hack this app!'})
-            return self.create_response(request, {'success': True})
+                    return self.create_response(request, {
+                        'success': False,
+                        'message': 'Come on stop trying to hack this app!'
+                    })
+            return self.create_response(request, {
+                'success': True
+            })
         elif (invitation):
             if invitation.to_user == person:
                 invitation.date_read = datetime.datetime.now()
                 invitation.save()
-                return self.create_response(request, {'success': True})
+                return self.create_response(request, {
+                    'success': True
+                })
             else:
-                return self.create_response(request, {'success': False, 'message': 'Come on stop trying to hack this app!'})
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'Come on stop trying to hack this app!'
+                })
         else:
-            return self.create_response(request, {'success': False, 'message': 'No invitations found!'})
+            return self.create_response(request, {
+                'success': False,
+                'message': 'No invitations found!'
+            })
 
 
     def send(self, request, **kwargs):
@@ -293,18 +587,29 @@ class FriendshipInvitationResource(ModelResource):
         from_user_id = user.id
         from_user = user
         if Friendship.objects.are_friends(to_user_id, from_user_id):
-            return self.create_response(request, {'success': False, 'message': 'It seems that you are already friends with ' + to_user_username})
+            return self.create_response(request, {
+                'success': False,
+                'message': 'It seems that you are already friends with ' + to_user_username
+            })
         else:
             if from_user == to_user:
-                return self.create_response(request, {'success': False, 'message': 'Come on.. you cant add yourself!'})
+                return self.create_response(request, {
+                    'success': False,
+                    'message': 'Come on.. you cant add yourself!'
+                })
             else:
                 invitations = FriendshipInvitation.objects.invitations(from_user=from_user_id,to_user=to_user_id)
                 if (not invitations):
                     FriendshipInvitation.objects.create(from_user=from_user, to_user=to_user, status=1)
-                    return self.create_response(request, {'success': True, 'message': 'Hey ' +  user.username + '!' +
-                          'You successfully sent invitation to ' + to_user_username})
+                    return self.create_response(request, {
+                        'success': True,
+                        'message': 'Hey ' +  user.username + '!' + 'You successfully sent invitation to ' + to_user_username
+                    })
                 else:
-                    return self.create_response(request, {'success': False, 'message': 'It seems that there is already a pending invitation for ' + to_user_username})
+                    return self.create_response(request, {
+                        'success': False,
+                        'message': 'It seems that there is already a pending invitation for ' + to_user_username
+                    })
 
     def accept(self, request, **kwargs):
         self.is_authenticated(request)
@@ -317,11 +622,15 @@ class FriendshipInvitationResource(ModelResource):
                 invitation = None
             if ((invitation) and (invitation.to_user == user)):
                 invitation.accept()
-                return self.create_response(request, {'success': True, 'message': 'Successfully Accepted Friend Invitation From User' + invitation.from_user.username})
+                return self.create_response(request, {
+                    'success': True,
+                    'message': 'Successfully Accepted Friend Invitation From User ' + invitation.from_user.username
+                })
             else:
                 raise ImmediateHttpResponse(response=http.HttpUnauthorized())
         else:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+
 
     def decline(self, request, **kwargs):
         self.is_authenticated(request)
@@ -334,7 +643,31 @@ class FriendshipInvitationResource(ModelResource):
                 invitation = None
             if ((invitation) and (invitation.to_user == person)):
                 invitation.decline()
-                return self.create_response(request, {'success': True, 'message': 'Successfully Declined Friend Invitation From User ' + person.username})
+                return self.create_response(request, {
+                    'success': True,
+                    'message': 'Successfully Declined Friend Invitation From User ' + person.username
+                })
+            else:
+                raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+        else:
+            raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+
+
+    def cancel(self, request, **kwargs):
+        self.is_authenticated(request)
+        person = checkRequestAndGetRequester(self, request, True)
+        invitation_id = request.POST.get('invitationID', '')
+        if (invitation_id):
+            try:
+                invitation = FriendshipInvitation.objects.get(id=invitation_id)
+            except FriendshipInvitation.DoesNotExist:
+                invitation = None
+            if ((invitation) and (invitation.from_user == person)):
+                invitation.delete()
+                return self.create_response(request, {
+                    'success': True,
+                    'message': 'Successfully Cancelled Friend Invitation To User ' + person.username
+                })
             else:
                 raise ImmediateHttpResponse(response=http.HttpUnauthorized())
         else:
@@ -351,12 +684,23 @@ class FriendshipInvitationResource(ModelResource):
         except FriendshipInvitation.DoesNotExist:
             invitations = None
         if (invitations):
-            jsonInvitations = simplejson.dumps([{'userID': invitation.from_user.id, 'username': invitation.from_user.username, 'message': invitation.message,
-                'sent': invitation.sent.strftime('%Y-%m-%d'), 'photo': invitation.from_user.photo.url if invitation.from_user.photo else '',
-                'date_read': invitation.date_read.strftime('%Y-%m-%d') if invitation.date_read else '', 'id': invitation.id} for invitation in invitations])
-            return self.create_response(request, {'success': True, 'invitations': jsonInvitations})
+            jsonInvitations = simplejson.dumps([{
+                'userID': invitation.from_user.id,
+                'username': invitation.from_user.username,
+                'message': invitation.message,
+                'sent': invitation.sent.strftime('%Y-%m-%d'),
+                'photo': invitation.from_user.photo.url if invitation.from_user.photo else '',
+                'date_read': invitation.date_read.strftime('%Y-%m-%d') if invitation.date_read else '',
+                'id': invitation.id
+            } for invitation in invitations])
+            return self.create_response(request, {
+                'success': True,
+                'invitations': jsonInvitations
+            })
         else:
-            return self.create_response(request, {'success': False})
+            return self.create_response(request, {
+                'success': False
+            })
 
 def checkRequestAndGetRequester(caller, request, shouldUseGenericAuthorization):
     consumer_key = get_oauth_consumer_key_from_header(request.META.get('HTTP_AUTHORIZATION'))
@@ -376,6 +720,7 @@ def checkRequestAndGetRequester(caller, request, shouldUseGenericAuthorization):
         caller.is_authorized(request)
         return person
     else:
+        crowdit_group = Group.objects.get(name='Crowdit user')
         if request.user.groups.filter(id=crowdit_group.id).exists():
             return person
         else:

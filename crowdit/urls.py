@@ -13,6 +13,7 @@ crowdit_api = Api(api_name='crowdit')
 crowdit_api.register(UserSignUpResource())
 crowdit_api.register(UserResource())
 crowdit_api.register(EventResource())
+crowdit_api.register(EventPersonResource())
 crowdit_api.register(AwardResource())
 crowdit_api.register(FriendshipInvitationResource())
 
@@ -23,6 +24,9 @@ urlpatterns = patterns('',
     url(r'social', include('social_auth.urls')),
 
      url(r'^admin/', include(admin.site.urls)),
+)
+urlpatterns += patterns('views',
+    (r'^$', 'index'),
 )
 if settings.DEBUG:
     urlpatterns += patterns('',

@@ -23,6 +23,10 @@ class EventAdmin(admin.ModelAdmin):
     inlines = [AwardsInline]
 
 
+class EventPersonAdmin(admin.ModelAdmin):
+    list_display = ('event', 'person', 'invitedFrom')
+
+
 class PersonAdmin(admin.ModelAdmin):
     list_display = ('username', 'first_name', 'last_name', 'email', 'getImage')
 
@@ -61,6 +65,7 @@ admin.site.register(JoinInvitation, JoinInvitationAdmin)
 admin.site.register(FriendshipInvitation, FriendshipInvitationAdmin)
 admin.site.register(FriendshipInvitationHistory, FriendshipInvitationHistoryAdmin)
 
+admin.site.register(EventPerson, EventPersonAdmin)
 admin.site.register(Award, AwardAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Person, PersonAdmin)

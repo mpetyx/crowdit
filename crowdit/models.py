@@ -102,8 +102,10 @@ class S3EnabledImageField(models.ImageField):
 
 models.signals.post_save.connect(create_api_key, sender=User)
 
+
 class Person(User):
     photo = S3EnabledImageField(blank=True,upload_to='media/persons')
+
     class Admin:
         pass
 
@@ -117,12 +119,12 @@ class Person(User):
 
 
 class Celebrity(User):
-    photo = models.ImageField(blank=True,upload_to='media/celebrities')
+    photo = S3EnabledImageField(blank=True,upload_to='media/celebrities')
     class Admin:
         pass
 
     def getImage(self):
-        return "<img src='/%s' width=97 height=72/>" % self.photo.url
+        return "<img src='%s' width=97 height=72/>" % self.photo.url if self.photo else ''
 
     getImage.allow_tags = True
 
@@ -140,9 +142,10 @@ class Event(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     address = map_fields.AddressField(max_length=200)
-    image = models.ImageField(upload_to='media/events')
+    image = S3EnabledImageField(upload_to='media/events')
     category = models.CharField(max_length=200)
     activationDate = models.DateTimeField('activation date')
+    openingDate = models.DateTimeField('opening date', default=datetime.datetime.now())
     expiryDate = models.DateTimeField('expiry date')
     geolocation = map_fields.GeoLocationField(max_length=100)
 
@@ -150,7 +153,7 @@ class Event(models.Model):
         db_table = "crowdit_event"
 
     def getImage(self):
-        return "<img src='/%s' width=97 height=72/>" % self.image.url
+        return "<img src='%s' width=97 height=72/>" % self.image.url
 
     getImage.allow_tags = True
 
@@ -163,16 +166,38 @@ class Award(models.Model):
     description = models.CharField(max_length=200)
     points = models.IntegerField(max_length=200)
     numberLeft = models.IntegerField(max_length=10)
-    image = models.ImageField(upload_to='media/awards')
+    image = S3EnabledImageField(upload_to='media/awards')
     event = models.ForeignKey(Event)
 
     def getImage(self):
-        return "<img src='/%s' width=97 height=72/>" % self.image.url
+        return "<img src='%s' width=97 height=72/>" % self.image.url
 
     getImage.allow_tags = True
 
     def __unicode__(self):
         return self.title
+
+class EventPersonManager(models.Manager):
+    def isPersonAttendingEvent(self, person, event):
+        eventPersons = self.filter(person=person,event=event)
+        if eventPersons:
+            return True
+        else:
+            return False
+
+
+class EventPerson(models.Model):
+    person = models.ForeignKey(Person, related_name='eventperson_person')
+    event = models.ForeignKey(Event)
+    invitedFrom = models.ForeignKey(Person, related_name='eventperson_invitedFrom', blank=True, null=True)
+
+    objects = EventPersonManager()
+
+    class Meta:
+        db_table = "crowdit_event_person"
+
+#    def __unicode__(self):
+#        return u'%s' % (self.title)
 
 class OAuthConsumer(models.Model):
 
@@ -432,5 +457,16 @@ def friendship_invitation(sender, instance, **kwargs):
         )
         friendship_invitation.delete()
 
+
+def convertDatetimeToString(o):
+    DATE_FORMAT = "%Y-%m-%d"
+    TIME_FORMAT = "%H:%M:%S"
+
+#    if isinstance(o, datetime.date):
+#        return o.strftime(DATE_FORMAT)
+#    elif isinstance(o, datetime.time):
+#        return o.strftime(TIME_FORMAT)
+#    elif isinstance(o, datetime.datetime):
+    return o.strftime("%s %s" % (DATE_FORMAT, TIME_FORMAT))
 
 signals.pre_save.connect(friendship_invitation, sender=FriendshipInvitation)
