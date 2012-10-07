@@ -75,6 +75,7 @@ class UserSignUpResource(ModelResource):
         try:
             bundle = super(UserSignUpResource, self).obj_create(bundle, request, **kwargs)
             bundle.obj.set_password(bundle.data.get('password'))
+            # person = Person.obj_create(username=bundle.get('username'), password=bundle.get('password'), )
             g = Group.objects.get(name='Crowdit user')
             g.user_set.add(bundle.obj)
             bundle.obj.save()
@@ -695,11 +696,13 @@ class FriendshipInvitationResource(ModelResource):
             } for invitation in invitations])
             return self.create_response(request, {
                 'success': True,
+                'found': True,
                 'invitations': jsonInvitations
             })
         else:
             return self.create_response(request, {
-                'success': False
+                'success': True,
+                'found': False
             })
 
 def checkRequestAndGetRequester(caller, request, shouldUseGenericAuthorization):

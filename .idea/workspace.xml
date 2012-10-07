@@ -3,14 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="91ce16d8-5d67-44ff-87ed-bc0e6a13d103" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit.db" afterPath="$PROJECT_DIR$/crowdit.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/admin.py" afterPath="$PROJECT_DIR$/crowdit/admin.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/api.py" afterPath="$PROJECT_DIR$/crowdit/api.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/models.py" afterPath="$PROJECT_DIR$/crowdit/models.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/settings.py" afterPath="$PROJECT_DIR$/crowdit/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/settings_local.py" afterPath="$PROJECT_DIR$/crowdit/settings_local.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/crowdit/urls.py" afterPath="$PROJECT_DIR$/crowdit/urls.py" />
     </list>
     <ignored path="crowdit.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,19 +28,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="api.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="api.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowdit/api.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="471" column="0" selection-start="19365" selection-end="19365" vertical-scroll-proportion="0.33333334">
+            <state line="698" column="18" selection-start="29333" selection-end="29333" vertical-scroll-proportion="-9.078431">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="query.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/query.py">
+      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowdit/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="189" column="0" selection-start="6810" selection-end="6810" vertical-scroll-proportion="0.0">
+            <state line="5" column="4" selection-start="188" selection-end="188" vertical-scroll-proportion="-3.0">
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/crowdit/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="169" column="36" selection-start="5348" selection-end="5348" vertical-scroll-proportion="0.2238806">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="wsgi.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/crowdit/wsgi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -53,48 +69,8 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowdit/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="32" selection-start="492" selection-end="492" vertical-scroll-proportion="-0.24">
-              <folding>
-                <element signature="e#53#92#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="resources.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/resources.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="201" column="0" selection-start="7534" selection-end="7534" vertical-scroll-proportion="-4.6923075">
+            <state line="15" column="32" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authentication.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authentication.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="0" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="authorization.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authorization.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="0" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/crowdit/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="181" column="60" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-2.235294">
-              <folding>
-                <element signature="e#54#69#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -120,7 +96,27 @@
       <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/crowdit/admin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="48" selection-start="742" selection-end="742" vertical-scroll-proportion="-2.6078432">
+            <state line="23" column="16" selection-start="778" selection-end="778" vertical-scroll-proportion="-6.7647057">
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="options.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/contrib/admin/options.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1053" column="0" selection-start="44864" selection-end="44864" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="options.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/python2.7/site-packages/django/contrib/admin/options.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="426" column="28" selection-start="17335" selection-end="17343" vertical-scroll-proportion="-5.54902">
               <folding />
             </state>
           </provider>
@@ -139,14 +135,14 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/crowdit/settings.py" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/views.py" />
         <option value="$PROJECT_DIR$/crowdit/settings_local.py" />
-        <option value="$PROJECT_DIR$/crowdit/admin.py" />
         <option value="$PROJECT_DIR$/crowdit/urls.py" />
-        <option value="$PROJECT_DIR$/crowdit/models.py" />
         <option value="$PROJECT_DIR$/crowdit/api.py" />
+        <option value="$PROJECT_DIR$/crowdit/settings.py" />
+        <option value="$PROJECT_DIR$/crowdit/admin.py" />
+        <option value="$PROJECT_DIR$/crowdit/models.py" />
       </list>
     </option>
   </component>
@@ -396,7 +392,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2964072" sideWeight="0.6010568" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30538923" sideWeight="0.6010568" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3989432" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -468,34 +464,53 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/simplejson/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="320" column="0" selection-start="12474" selection-end="12474" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="485" column="0" selection-start="21594" selection-end="21594" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/dispatch/dispatcher.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="0" selection-start="5807" selection-end="5807" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/utils/importlib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1179" selection-end="1179" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/core/urlresolvers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="322" column="0" selection-start="12803" selection-end="12803" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/crowdit/settings_local.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="19" selection-start="702" selection-end="702" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/query.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="189" column="0" selection-start="6810" selection-end="6810" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/resources.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="201" column="0" selection-start="7534" selection-end="7534" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authentication.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authorization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowdit/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowdit/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowdit/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="32" selection-start="492" selection-end="492" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="219" column="0" selection-start="8042" selection-end="8042" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/conf/__init__.py">
@@ -503,69 +518,46 @@
         <state line="116" column="54" selection-start="4805" selection-end="4805" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowdit/admin.py">
+    <entry file="file://$PROJECT_DIR$/lib/python2.7/site-packages/django/contrib/admin/options.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="48" selection-start="742" selection-end="742" vertical-scroll-proportion="-2.6078432">
+        <state line="426" column="28" selection-start="17335" selection-end="17343" vertical-scroll-proportion="-5.54902">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/crowdit/urls.py">
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/contrib/admin/options.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="32" selection-start="492" selection-end="492" vertical-scroll-proportion="-0.24">
+        <state line="1053" column="0" selection-start="44864" selection-end="44864" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowdit/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="698" column="18" selection-start="29333" selection-end="29333" vertical-scroll-proportion="-9.078431">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/crowdit/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="4" selection-start="188" selection-end="188" vertical-scroll-proportion="-3.0">
           <folding>
-            <element signature="e#53#92#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authorization.py">
+    <entry file="file://$PROJECT_DIR$/crowdit/admin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/authentication.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="0" selection-start="1030" selection-end="1030" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/tastypie/resources.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="0" selection-start="7534" selection-end="7534" vertical-scroll-proportion="-4.6923075">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="0" selection-start="8042" selection-end="8042" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="23" column="16" selection-start="778" selection-end="778" vertical-scroll-proportion="-6.7647057">
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/crowdit/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="181" column="60" selection-start="5685" selection-end="5685" vertical-scroll-proportion="-2.235294">
-          <folding>
-            <element signature="e#54#69#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/db/models/query.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="189" column="0" selection-start="6810" selection-end="6810" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/crowdit/api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="471" column="0" selection-start="19365" selection-end="19365" vertical-scroll-proportion="0.33333334">
+        <state line="169" column="36" selection-start="5348" selection-end="5348" vertical-scroll-proportion="0.2238806">
           <folding />
         </state>
       </provider>

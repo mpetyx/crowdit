@@ -9,19 +9,40 @@ class AwardsInline(admin.TabularInline):
     model = Award
     extra = 3
 
-
-class EventsInline(admin.TabularInline):
-    model = Event
-    extra = 3
-
-
 class EventAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'category', 'address', 'activationDate', 'expiryDate', 'getImage')
     formfield_overrides = {
         map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
     }
+    readonly_fields = ('userCreated',)
     inlines = [AwardsInline]
 
+    def queryset(self, request):
+        qs = super(EventAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(userCreated=request.user)
+
+    def save_model(self, request, obj, form, change):
+        if not request.user.is_superuser:
+            celebrity = Celebrity.objects.get(id=request.user.id)
+            obj.userCreated = celebrity
+        obj.save()
+
+#    def save_formset(self, request, form, formset, change):
+#        if formset.model == Award and not request.user.is_superuser:
+#            instances = formset.save(commit=False)
+#            for instance in instances:
+#                celebrity = Celebrity.objects.get(id=request.user.id)
+#                instance.userCreated = celebrity
+#                instance.save()
+#        else:
+#            formset.save()
+
+    def get_readonly_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return ()
+        return self.readonly_fields
 
 class EventPersonAdmin(admin.ModelAdmin):
     list_display = ('event', 'person', 'invitedFrom')
@@ -37,6 +58,18 @@ class CelebrityAdmin(admin.ModelAdmin):
 
 class AwardAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'points', 'getImage')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "event" and not request.user.is_superuser:
+            kwargs["queryset"] = Event.objects.filter(userCreated=request.user)
+            return db_field.formfield(**kwargs)
+        return super(AwardAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def queryset(self, request):
+        qs = super(AwardAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(event__userCreated=request.user)
 
 
 class ContactAdmin(admin.ModelAdmin):
