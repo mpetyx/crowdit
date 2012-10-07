@@ -25,6 +25,7 @@ from tastypie import http
 import time
 import datetime
 import os
+import string
 
 """
     the closed api we are going to expose for the mobile devices
@@ -390,6 +391,9 @@ class EventPersonResource(ModelResource):
             url(r"^(?P<resource_name>%s)/unattend%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('unattend'), name="api_unattend"),
+            url(r"^(?P<resource_name>%s)/validate%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('validate'), name="api_validate"),
             ]
 
     def attend(self, request, **kwargs):
@@ -480,6 +484,39 @@ class EventPersonResource(ModelResource):
                 'success': False,
                 'message': 'It seems you have already unattended this event'
             })
+
+    def validate(self, request, **kwargs):
+#        self.is_authenticated(request)
+#        celebrity = checkRequestAndGetRequester(self, request, False)
+        try:
+            hashedData = request.GET['hashedData']
+            arguments = hashedData.split('@@@@')
+            actualDecryptedKey = arguments.pop()
+            actualDecryptedKey = actualDecryptedKey.replace(' ','+')
+            expectedDecryptedKey = getDecryptedKey(arguments[0] + '@@@@' + arguments[1] + '@@@@' + arguments[2], arguments[0])
+            if actualDecryptedKey == expectedDecryptedKey:
+                person = Person.objects.get(id=arguments[0])
+                event = Event.objects.get(id=arguments[1])
+                try:
+                    oldEventPerson = EventPerson.objects.get(event=event, person=person)
+                    oldEventPerson.delete()
+                except:
+                    oldEventPerson = None
+                eventPerson = EventPerson.objects.create(event=event, person=person, isValid=True)
+                if (arguments[2]):
+                    invitedFrom = Person.objects.get(id=arguments[2])
+                    eventPerson.invitedFrom = invitedFrom
+                    eventPerson.save()
+                return self.create_response(request, {
+                    'success': True,
+                    'message': 'Success'
+                })
+            else:
+                raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+        except:
+            raise ImmediateHttpResponse(response=http.HttpUnauthorized())
+
+
 
 class AwardResource(ModelResource):
 

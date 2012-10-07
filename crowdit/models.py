@@ -19,6 +19,9 @@ from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File
+from hashlib import sha1
+import binascii
+import hmac
 import os
 
 
@@ -457,6 +460,12 @@ def friendship_invitation(sender, instance, **kwargs):
         )
         friendship_invitation.delete()
 
+
+def getDecryptedKey(string, base):
+#    b = string.encode('ascii')
+#    a = base.encode('ascii')
+    hashedObject = hmac.new(string.encode('ascii'), base.encode('ascii'), sha1)#base.encode('ascii')
+    return binascii.b2a_base64(hashedObject.digest())[:-1]
 
 def convertDatetimeToString(o):
     DATE_FORMAT = "%Y-%m-%d"
