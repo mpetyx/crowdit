@@ -190,7 +190,7 @@ class EventPerson(models.Model):
     person = models.ForeignKey(Person, related_name='eventperson_person')
     event = models.ForeignKey(Event)
     invitedFrom = models.ForeignKey(Person, related_name='eventperson_invitedFrom', blank=True, null=True)
-
+    isValid = models.BooleanField(default=False)
     objects = EventPersonManager()
 
     class Meta:
