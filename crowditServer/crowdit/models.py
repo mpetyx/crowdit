@@ -7,7 +7,6 @@ from random import random
 from django_google_maps import fields as map_fields
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
 from tastypie.models import create_api_key
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -107,29 +106,30 @@ models.signals.post_save.connect(create_api_key, sender=User)
 
 
 class Person(User):
-    photo = S3EnabledImageField(blank=True,upload_to='media/persons')
+    photo = S3EnabledImageField(blank=True, upload_to='media/persons')
 
     class Admin:
         pass
 
-    def getImage(self):
+    def get_image(self):
         return "<img src='%s' width=97 height=72/>" % self.photo.url if self.photo else ''
 
-    getImage.allow_tags = True
+    get_image.allow_tags = True
 
     def __unicode__(self):
         return self.username
 
 
 class Celebrity(User):
-    photo = S3EnabledImageField(blank=True,upload_to='media/celebrities')
+    photo = S3EnabledImageField(blank=True, upload_to='media/celebrities')
+
     class Admin:
         pass
 
-    def getImage(self):
+    def get_image(self):
         return "<img src='%s' width=97 height=72/>" % self.photo.url if self.photo else ''
 
-    getImage.allow_tags = True
+    get_image.allow_tags = True
 
     def __unicode__(self):
         return self.username
@@ -155,10 +155,10 @@ class Event(models.Model):
     class Meta:
         db_table = "crowdit_event"
 
-    def getImage(self):
-        return "<img src='%s' width=97 height=72/>" % self.image.url
+    def get_image(self):
+        return "<img src='%s' width=97 height=72/>" % self.image.url if self.image else ''
 
-    getImage.allow_tags = True
+    get_image.allow_tags = True
 
     def __unicode__(self):
         return u'%s' % (self.title)
@@ -172,17 +172,18 @@ class Award(models.Model):
     image = S3EnabledImageField(upload_to='media/awards')
     event = models.ForeignKey(Event)
 
-    def getImage(self):
-        return "<img src='%s' width=97 height=72/>" % self.image.url
+    def get_image(self):
+        return "<img src='%s' width=97 height=72/>" % self.image.url if self.image else ''
 
-    getImage.allow_tags = True
+    get_image.allow_tags = True
 
     def __unicode__(self):
         return self.title
 
+
 class EventPersonManager(models.Manager):
-    def isPersonAttendingEvent(self, person, event):
-        eventPersons = self.filter(person=person,event=event)
+    def is_person_attending_event(self, person, event):
+        eventPersons = self.filter(person=person, event=event)
         if eventPersons:
             return True
         else:
@@ -201,6 +202,7 @@ class EventPerson(models.Model):
 
 #    def __unicode__(self):
 #        return u'%s' % (self.title)
+
 
 class OAuthConsumer(models.Model):
 
@@ -425,7 +427,7 @@ if EmailAddress:
     def new_user(sender, instance, **kwargs):
         if instance.verified:
             for join_invitation in JoinInvitation.objects.filter(contact__email=instance.email):
-                if join_invitation.status not in ["5", "7"]: # if not accepted or already marked as joined independently
+                if join_invitation.status not in ["5", "7"]:
                     join_invitation.status = "7"
                     join_invitation.save()
                     # notification will be covered below
@@ -435,6 +437,7 @@ if EmailAddress:
 
     # only if django-email-notification is installed
     signals.post_save.connect(new_user, sender=EmailAddress)
+
 
 def delete_friendship(sender, instance, **kwargs):
     friendship_invitations = FriendshipInvitation.objects.filter(to_user=instance.to_user, from_user=instance.from_user)
@@ -461,13 +464,14 @@ def friendship_invitation(sender, instance, **kwargs):
         friendship_invitation.delete()
 
 
-def getDecryptedKey(string, base):
+def get_decrypted_key(string, base):
 #    b = string.encode('ascii')
 #    a = base.encode('ascii')
-    hashedObject = hmac.new(string.encode('ascii'), base.encode('ascii'), sha1)#base.encode('ascii')
+    hashedObject = hmac.new(string.encode('ascii'), base.encode('ascii'), sha1)
     return binascii.b2a_base64(hashedObject.digest())[:-1]
 
-def convertDatetimeToString(o):
+
+def convert_datetime_to_string(o):
     DATE_FORMAT = "%Y-%m-%d"
     TIME_FORMAT = "%H:%M:%S"
 

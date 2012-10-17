@@ -1,37 +1,31 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls.defaults import url
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from tastypie.resources import ModelResource
-from tastypie.authorization import Authorization, DjangoAuthorization#, MultiAuthentication
-from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication#OAuthAuthentication#, MultiAuthentication
+from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import BasicAuthentication, ApiKeyAuthentication
 from authentication import *
-from tastypie.cache import SimpleCache
-from tastypie.validation import Validation
 from tastypie.utils import trailing_slash
 from django.db import models
-from django.conf import settings
 from tastypie.models import create_api_key
 from models import OAuthConsumer
 from CamelCaseJSONSerializer import CamelCaseJSONSerializer
 from django.utils import simplejson
 from models import *
-from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
-from tastypie.exceptions import NotFound, BadRequest, InvalidFilterError, HydrationError, InvalidSortError, ImmediateHttpResponse
-from django.http import HttpResponse, HttpResponseNotFound
+from tastypie.exceptions import BadRequest, ImmediateHttpResponse
 from tastypie import http
 import time
 import datetime
-import os
-import string
+
 
 """
     the closed api we are going to expose for the mobile devices
 """
 
-# a class for handling custom authentication as already described
+
 class MyAuthentication(BasicAuthentication):
 
     def is_authenticated(self, request, **kwargs):
@@ -87,6 +81,7 @@ class UserSignUpResource(ModelResource):
     def apply_authorization_limits(self, request, object_list):
         return object_list.filter(id=request.user.id, is_superuser=True)
 
+
 class UserResource(ModelResource):
 
     class Meta:
@@ -94,7 +89,7 @@ class UserResource(ModelResource):
         queryset = Person.objects.all()
         list_allowed_methods = ['get', 'post']
 
-        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+        authentication = TwoLeggedOAuthAuthentication()
         authorization = DjangoAuthorization()
         excludes = ['password', 'is_superuser']
         include_resource_uri = False
@@ -122,11 +117,10 @@ class UserResource(ModelResource):
                 self.wrap_view('profile'), name="api_profile"),
         ]
 
-
     def search(self, request, **kwargs):
         self.is_authenticated(request)
         checkRequestAndGetRequester(self, request, True)
-        username = request.GET['username'];
+        username = request.GET['username']
         if username:
             try:
                 person = Person.objects.get(username=username)
@@ -151,11 +145,10 @@ class UserResource(ModelResource):
                 'message': 'Please provide a username'
             })
 
-
     def friends(self, request, **kwargs):
         self.is_authenticated(request)
-        person = checkRequestAndGetRequester(self, request, True)
-        user_id = request.GET['userID'];
+        checkRequestAndGetRequester(self, request, True)
+        user_id = request.GET['userID']
         profile = Person.objects.get(id=user_id)
         friends = friend_set_for(profile)
         if friends:
@@ -177,9 +170,7 @@ class UserResource(ModelResource):
     def profile(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, True)
-#        person = Person.objects.get(username='Bar')
-#        request.user = person
-        user_id = request.GET['userID'];
+        user_id = request.GET['userID']
         profile = Person.objects.get(id=user_id)
         number_of_friends = Friendship.objects.filter(Q(from_user_id=profile.id) | Q(to_user_id=profile.id)).count()
         is_friend = Friendship.objects.are_friends(person.id, profile.id)
@@ -189,7 +180,7 @@ class UserResource(ModelResource):
                 'pendingInvitations': {
                     'pendingInvitationExists': False,
                     'canAccept': False,
-                    'invitationID' : False,
+                    'invitationID': False,
                     'invitationMessage': False
                 },
                 'profile': {
@@ -206,7 +197,7 @@ class UserResource(ModelResource):
                 'pendingInvitations': {
                     'pendingInvitationExists': False,
                     'canAccept': False,
-                    'invitationID' : False,
+                    'invitationID': False,
                     'invitationMessage': False
                 },
                 'profile': {
@@ -237,7 +228,7 @@ class UserResource(ModelResource):
                 'pendingInvitations': {
                     'pendingInvitationExists': pending_invitation_exists,
                     'canAccept': can_accept,
-                    'invitationID' : invitation_id,
+                    'invitationID': invitation_id,
                     'invitationMessage': invitation_message
                 },
                 'profile': {
@@ -286,7 +277,6 @@ class UserResource(ModelResource):
                 'message': 'Invalid User. Please make sure you inserted the right username-password'
             })
 
-
     def prof_picture_upload(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, False)
@@ -297,7 +287,6 @@ class UserResource(ModelResource):
             'success': True,
             'profilePictureUrl': person.photo.url
         })
-
 
     def logout(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
@@ -326,11 +315,11 @@ class EventResource(ModelResource):
     def upcoming(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, True)
-        events = Event.objects.filter(Q(**{'expiryDate__gte': datetime.datetime.now()}),Q(**{'activationDate__lte': datetime.datetime.now()}))
+        events = Event.objects.filter(Q(**{'expiryDate__gte': datetime.datetime.now()}), Q(**{'activationDate__lte': datetime.datetime.now()}))
 #        :
         awards = {}
         for event in events:
-            awards[event.id]=Award.objects.filter(event_id=event.id)
+            awards[event.id] = Award.objects.filter(event_id=event.id)
         if events:
             jsonEvents = simplejson.dumps([{
                 'id': event.id,
@@ -341,11 +330,11 @@ class EventResource(ModelResource):
                     'username': event.userCreated.username,
                     'photo': event.userCreated.photo.url if event.userCreated.photo else '',
                 },
-                'attending': EventPerson.objects.isPersonAttendingEvent(person, event),
+                'attending': EventPerson.objects.is_person_attending_event(person, event),
                 'photo': event.image.url if event.image else '',
-                'activationDate': convertDatetimeToString(event.activationDate),
-                'expiryDate': convertDatetimeToString(event.expiryDate),
-                'openingDate': convertDatetimeToString(event.openingDate),
+                'activationDate': convert_datetime_to_string(event.activationDate),
+                'expiryDate': convert_datetime_to_string(event.expiryDate),
+                'openingDate': convert_datetime_to_string(event.openingDate),
                 'geolocation': {
                     'lat': event.geolocation.lat,
                     'lon': event.geolocation.lon
@@ -370,6 +359,7 @@ class EventResource(ModelResource):
                 'success': False,
                 'message': 'No events found'
             })
+
 
 class EventPersonResource(ModelResource):
 
@@ -417,17 +407,17 @@ class EventPersonResource(ModelResource):
             except:
                 invitedFrom = False
             if invitedFrom:
-                eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}),Q(**{'invitedFrom': invitedFrom}))
+                eventPersons = EventPerson.objects.filter(Q(**{'person': person}), Q(**{'event': event}), Q(**{'invitedFrom': invitedFrom}))
             else:
                 return self.create_response(request, {
                     'success': False,
                     'message': 'Invalid "invited from" crowd it user'
                 })
         else:
-            eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}))
+            eventPersons = EventPerson.objects.filter(Q(**{'person': person}), Q(**{'event': event}))
         if eventPersons:
             if invitedFromID:
-                eventPersons.invitedFrom=invitedFrom
+                eventPersons.invitedFrom = invitedFrom
                 eventPersons.save()
             else:
                 return self.create_response(request, {
@@ -465,14 +455,14 @@ class EventPersonResource(ModelResource):
             except:
                 invitedFrom = False
             if invitedFrom:
-                eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}),Q(**{'invitedFrom': invitedFrom}))
+                eventPersons = EventPerson.objects.filter(Q(**{'person': person}), Q(**{'event': event}), Q(**{'invitedFrom': invitedFrom}))
             else:
                 return self.create_response(request, {
                     'success': False,
                     'message': 'Invalid "invited from" crowd it user'
                 })
         else:
-            eventPersons = EventPerson.objects.filter(Q(**{'person': person}),Q(**{'event': event}))
+            eventPersons = EventPerson.objects.filter(Q(**{'person': person}), Q(**{'event': event}))
         if eventPersons:
             eventPersons[0].delete()
             return self.create_response(request, {
@@ -492,8 +482,8 @@ class EventPersonResource(ModelResource):
             hashedData = request.GET['hashedData']
             arguments = hashedData.split('@@@@')
             actualDecryptedKey = arguments.pop()
-            actualDecryptedKey = actualDecryptedKey.replace(' ','+')
-            expectedDecryptedKey = getDecryptedKey(arguments[0] + '@@@@' + arguments[1] + '@@@@' + arguments[2], arguments[0])
+            actualDecryptedKey = actualDecryptedKey.replace(' ', '+')
+            expectedDecryptedKey = get_decrypted_key(arguments[0] + '@@@@' + arguments[1] + '@@@@' + arguments[2], arguments[0])
             if actualDecryptedKey == expectedDecryptedKey:
                 person = Person.objects.get(id=arguments[0])
                 event = Event.objects.get(id=arguments[1])
@@ -517,7 +507,6 @@ class EventPersonResource(ModelResource):
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
 
-
 class AwardResource(ModelResource):
 
     class Meta:
@@ -538,7 +527,7 @@ class FriendshipInvitationResource(ModelResource):
 
         queryset = FriendshipInvitation.objects.all()
         allowed_methods = ['post']
-        authentication = TwoLeggedOAuthAuthentication() #MultiAuthentication(BasicAuthentication, MyAuthentication())
+        authentication = TwoLeggedOAuthAuthentication()
         authorization = DjangoAuthorization()
         excludes = ['id']
         resource_name = 'invite'
@@ -566,7 +555,6 @@ class FriendshipInvitationResource(ModelResource):
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('read'), name="api_read"),
             ]
-
 
     def read(self, request, **kwargs):
         self.is_authenticated(request)
@@ -611,7 +599,6 @@ class FriendshipInvitationResource(ModelResource):
                 'message': 'No invitations found!'
             })
 
-
     def send(self, request, **kwargs):
         self.is_authenticated(request)
         user = checkRequestAndGetRequester(self, request, True)
@@ -636,12 +623,12 @@ class FriendshipInvitationResource(ModelResource):
                     'message': 'Come on.. you cant add yourself!'
                 })
             else:
-                invitations = FriendshipInvitation.objects.invitations(from_user=from_user_id,to_user=to_user_id)
+                invitations = FriendshipInvitation.objects.invitations(from_user=from_user_id, to_user=to_user_id)
                 if (not invitations):
                     FriendshipInvitation.objects.create(from_user=from_user, to_user=to_user, status=1)
                     return self.create_response(request, {
                         'success': True,
-                        'message': 'Hey ' +  user.username + '!' + 'You successfully sent invitation to ' + to_user_username
+                        'message': 'Hey ' + user.username + '!' + 'You successfully sent invitation to ' + to_user_username
                     })
                 else:
                     return self.create_response(request, {
@@ -669,7 +656,6 @@ class FriendshipInvitationResource(ModelResource):
         else:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
-
     def decline(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, True)
@@ -690,7 +676,6 @@ class FriendshipInvitationResource(ModelResource):
         else:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
-
     def cancel(self, request, **kwargs):
         self.is_authenticated(request)
         person = checkRequestAndGetRequester(self, request, True)
@@ -710,7 +695,6 @@ class FriendshipInvitationResource(ModelResource):
                 raise ImmediateHttpResponse(response=http.HttpUnauthorized())
         else:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
-
 
     def pending(self, request, **kwargs):
         self.is_authenticated(request)
@@ -741,6 +725,7 @@ class FriendshipInvitationResource(ModelResource):
                 'success': True,
                 'found': False
             })
+
 
 def checkRequestAndGetRequester(caller, request, shouldUseGenericAuthorization):
     consumer_key = get_oauth_consumer_key_from_header(request.META.get('HTTP_AUTHORIZATION'))

@@ -2,8 +2,10 @@
 from os.path import join, dirname, normpath
 import os
 import django_google_maps
-
-
+import warnings
+warnings.filterwarnings(
+    'error', r"DateTimeField received a naive datetime",
+    RuntimeWarning, r'django\.db\.models\.fields')
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 

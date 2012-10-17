@@ -10,7 +10,7 @@ class AwardsInline(admin.TabularInline):
     extra = 3
 
 class EventAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'category', 'address', 'activationDate', 'expiryDate', 'getImage')
+    list_display = ('title', 'description', 'category', 'address', 'activationDate', 'expiryDate', 'get_image')
     formfield_overrides = {
         map_fields.AddressField: {'widget': map_widgets.GoogleMapsAddressWidget},
     }
@@ -49,15 +49,15 @@ class EventPersonAdmin(admin.ModelAdmin):
 
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'email', 'getImage')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'get_image')
 
 
 class CelebrityAdmin(admin.ModelAdmin):
-    list_display = ('username', 'first_name', 'last_name', 'email', 'getImage')
+    list_display = ('username', 'first_name', 'last_name', 'email', 'get_image')
 
 
 class AwardAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'points', 'getImage')
+    list_display = ('title', 'description', 'points', 'get_image')
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "event" and not request.user.is_superuser:
