@@ -506,6 +506,60 @@ class EventPersonResource(ModelResource):
         except:
             raise ImmediateHttpResponse(response=http.HttpUnauthorized())
 
+class PhotoResource(ModelResource):
+
+    #use it with curl  --form "photo_original=@mike.jpg" http://crowdit.herokuapp.com/api/crowdit/photo/
+
+    class Meta:
+        always_return_data = True
+        queryset = Photo.objects.all()
+        allowed_methods = ['get', 'post']
+        authentication = MyAuthentication()
+        authorization = DjangoAuthorization()
+        excludes = ['id']
+        include_resource_uri = False
+
+#
+#    def override_urls(self):
+#
+#        return [
+#            url(r"^(?P<resource_name>%s)/resize%s$" %
+#                (self._meta.resource_name, trailing_slash()),
+#                self.wrap_view('resize'), name="resize"),
+#
+#            url(r"^(?P<resource_name>%s)/handler%s$" %
+#                (self._meta.resource_name, trailing_slash()),
+#                self.wrap_view('handler'), name="handler"),
+#
+#        ]
+#
+#
+#    def resize(self, request, **kwargs):
+#
+#        self.is_authorized(request)
+#
+#        if 'photo_id' in kwargs:
+#            photo_id = kwargs['photo_id']
+#        else:
+#            photo_id   = request.REQUEST.get('photo_id', '')
+#
+#        bundle = Photo.objects.get(name = photo_id)
+#        from s3fs import S3FS
+#        lol =  S3FS( "openiphotos","photos",'AKIAJWJD4LJWZ4PMCWTA','mwuo3YgUVrNoCW+XXvGr/Fk8YIpx+AmAZITMFX+L')
+#
+#        picture = lol.open(bundle)
+#        im = get_thumbnail(picture.photo_original, '100x100', crop='center', quality=99)
+#        return self.create_response(request, im)
+
+
+#    def dehydrate(self, bundle):
+#        bundle.data['images'] = list()
+#        for x in Photo.objects.filter(base_product__id=bundle.data['id']):
+#            bundle.data['images'].append(x.thumbnail)
+#        return bundle
+
+
+
 
 class AwardResource(ModelResource):
 

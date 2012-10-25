@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'crowdit',
     'social_auth',
     'storages',
+    "athumb",
 )
 
 AUTHENTICATION_BACKENDS = (
